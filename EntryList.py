@@ -2,10 +2,13 @@ import sqlite3
 import collections
 
 class EntryList:
+	databaseFilename = "./entries.sqlite3"
+	tableName = "Entries"
 
 	def __init__(self, obj=None):
 		self.conn = sqlite3.connect('data.db')
-		self.c = conn.cursor()
+		with cur = conn.cursor():
+			
 		self.queue = collections.deque()
 
 	def add(self, obj):
@@ -13,7 +16,10 @@ class EntryList:
 		#add to db
 
 	def modify(self, obj):
-		#find, modify, return
+		for item in self.queue:
+			if item.eid == obj.eid:
+				item = obj
+				return obj
 
 	def remove(self, eid, duration):
 		for item in self.queue:
@@ -21,6 +27,8 @@ class EntryList:
 				item.duration = duration
 				self.__updateDB()
 				self.queue(item)
+				return True
+		return False # Wasn't found
 
 	def getById(self, x):
 		for item in self.queue:
