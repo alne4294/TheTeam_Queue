@@ -1,0 +1,6 @@
+# Ignore common temp files
+\#*\#
+*~
+
+# Ignore python build files
+*.pyc
