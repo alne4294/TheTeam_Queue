@@ -1,5 +1,5 @@
 # TheTeam_Queue
-REST service for University of Colorado's Data Engineering Course, Spring 2015
+_REST service for University of Colorado's Data Engineering Course, Spring 2015_
 
 ## Description
 This service will use Flask, Python, and SQLite to enqueue and dequeue students who are waiting for assistance from a Learning Assistant.
@@ -27,7 +27,7 @@ This service will use Flask, Python, and SQLite to enqueue and dequeue students 
 ```
 
 #### Data Format
-JSON
+_JSON_
 
 Class named Entry:
 ```
@@ -41,9 +41,9 @@ Class named Entry:
 ```
 
 #### Request Examples
-Python/Flask
+_Python/Flask_
 
-Example GET Request:
+Example GET Request (note: defaults to get):
 ```python
 @app.route('/api/1.0/queue/pos/<int:x>')
 def getPos(x):
@@ -52,4 +52,9 @@ def getPos(x):
     
 def format(bool, obj)
   return <data_object>
+```
+
+Example PUSH Request:
+```python
+@app.route('url',methods=['PUSH'])
 ```
