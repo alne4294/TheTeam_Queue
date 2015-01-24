@@ -75,6 +75,7 @@ y = request.json
 entryList.add(entry)
          .modify(entry)
          .remove(entry)
-         .get()
+         .getById(x)
+         .getByPos(x)
          .getAll()
 ```
