@@ -2,7 +2,7 @@
 REST service for University of Colorado's Data Engineering Course, Spring 2015
 
 ## Description
-This service will enqueue and dequeue students who are waiting for assistance from a Learning Assistant.
+This service will use Flask, Python, and SQLite to enqueue and dequeue students who are waiting for assistance from a Learning Assistant.
 
 #### Data Contents
 * Name 
@@ -29,13 +29,25 @@ This service will enqueue and dequeue students who are waiting for assistance fr
 #### Data Format
 JSON
 ```
-{
-"name":string,
+{"name":string,
 "time_submitted":dateTime,
 "class":string,
 "helped":bool,
 "location":string,
 "duration":int,
-"helpedBy":string
-}
+"helpedBy":string}
+```
+
+#### Request Examples
+Python/Flask
+
+Example GET Request:
+```
+@app.route('/api/1.0/queue/pos/<int:x>')
+def getPos(x):
+  findInDatabase(x)
+    return format(true/false, x)
+    
+def format(bool, obj)
+  return <data_object>
 ```
