@@ -4,6 +4,12 @@ REST service for University of Colorado's Data Engineering Course, Spring 2015
 ## Description
 This service will use Flask, Python, and SQLite to enqueue and dequeue students who are waiting for assistance from a Learning Assistant.
 
+## The Team
+- Justin McBride: dare599z
+- Tyler Bussell: TylerBussell
+- Alexia Newgord: alne4294
+- David: driabwb
+
 #### Data Contents
 * Name 
 * Time Submitted
