@@ -115,7 +115,7 @@ def create():
 @app.route('/api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
 def modify(uuid):
     entryData = request.json
-    modifiedData = entry(entryData)
+    modifiedData = entry(jsonstr = entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
     entryList.modify(modifiedData)
@@ -125,7 +125,7 @@ def modify(uuid):
 @app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
 def dequeue(uuid):
     entryData = request.json
-    modifiedData = entry(entryData)
+    modifiedData = entry(jsonstr=entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
     success = entryList.remove(modifiedData)
