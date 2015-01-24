@@ -1,5 +1,5 @@
 import sqlite3
-import collections
+from collections import deque
 
 class EntryList:
 	databaseFilename = "./entries.sqlite3"
@@ -12,7 +12,7 @@ class EntryList:
 			sql = 'create table if not exists ' + tableName + tableFormat
 			cur.execute(sql)
 			cur.commit()
-		self.queue = collections.deque()
+		self.queue = deque()
 
 	def add(self, obj):
 		self.queue.append(obj)
@@ -26,7 +26,13 @@ class EntryList:
 		course = obj.course
 		helped = str(obj.helped)
 		location = obj.location
-		duration = 
+		duration = obj.duration
+		helpedBy = obj.helpedBy
+		return
+
+	@staticmethod
+	def __wrapString(s):
+		return '\'' + s + '\''
 
 	def modify(self, obj):
 		for item in self.queue:
