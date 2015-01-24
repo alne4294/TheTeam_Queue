@@ -32,7 +32,7 @@ class EntryList:
 		location = obj.location
 		duration = obj.duration
 		helpedBy = obj.helpedBy
-		return eid + ', ' + subtime + ', ' + self.wrapString(course) + ', ' + helped + ', '+ self.wrapString(location) + ', ' + self.wrapString(duration) + ', ' + self.wrapString(helpedBy)
+		return self.wrapString(eid) + ', ' + self.wrapString(subtime) + ', ' + self.wrapString(course) + ', ' + self.wrapString(helped) + ', '+ self.wrapString(location) + ', ' + self.wrapString(duration) + ', ' + self.wrapString(helpedBy)
 
 	@staticmethod
 	def wrapString(s):
