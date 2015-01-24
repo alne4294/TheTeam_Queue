@@ -36,7 +36,6 @@ class entry:
     #     self.helpedBy = json['helpedBy']
 
 
-
     def format(self):
         return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
                        "course": self.course, "helped": self.helped, "location": self.location,
@@ -76,8 +75,12 @@ def getByPos(pos):
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):
-	entryList.getById(uuid)
-	return format_response(True, uuid)
+	entry = entryList.getById(uuid)
+    isTrue = True
+    if entry == None:
+        isTrue = False
+        entry = "No entry at ID: " + uuid
+	return format_response(isTrue, entry)
 
 #/queue/pos/#
 @app.route('/api/1.0/queue')
