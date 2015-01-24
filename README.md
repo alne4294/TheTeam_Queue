@@ -44,7 +44,7 @@ Class named Entry:
 "location":string,
 "duration":int,
 "helpedBy":string
-"id":int(unique)}
+"eid":string}
 ```
 
 #### Request Examples
@@ -73,10 +73,10 @@ y = request.json
 
 #### Queue API
 ```
-entryList.add(entry)
-         .modify(entry)
-         .remove(entry)
-         .getById(<id>)
-         .getByPos(<position>)
-         .getAll()
+entryList.add(entry), boolean
+         .modify(entry), object
+         .remove(entry), boolean
+         .getById(<id>), object
+         .getByPos(<position>), object
+         .getAll(), queue
 ```
