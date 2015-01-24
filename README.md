@@ -54,9 +54,9 @@ Example GET Request (note: defaults to get):
 @app.route('/api/1.0/queue/pos/<int:x>')
 def getPos(x):
   findInDatabase(x)
-    return format(true/false, x)
+    return format_response(true/false, x)
     
-def format(bool, obj)
+def format_response(bool, obj)
   return <data_object>
 ```
 
