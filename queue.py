@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from EntryList import EntryList
-from flask import Flask
+from flask import Flask, request
 from collections import deque
 import json as j
 from uuid import uuid4
@@ -25,15 +25,15 @@ class entry:
         self.duration = duration
         self.helpedBy = str(helpedBy)
 
-    def __init__(self, json):
-        self.name = json['name']
-        self.eid = json['eid']
-        self.subTime = json['subTime']
-        self.course = json['course']
-        self.helped = json['helped']
-        self.location = json['location']
-        self.duration = json['duration']
-        self.helpedBy = json['helpedBy']
+    # def __init__(self, json):
+    #     self.name = json['name']
+    #     self.eid = json['eid']
+    #     self.subTime = json['subTime']
+    #     self.course = json['course']
+    #     self.helped = json['helped']
+    #     self.location = json['location']
+    #     self.duration = json['duration']
+    #     self.helpedBy = json['helpedBy']
 
 
 
@@ -56,8 +56,8 @@ def format_response(success, obj):
     elif isinstance(obj, entry):
         response["data"] = obj.format()
     else:
-        response["data"] = json.dumps(obj)
-    return json.dumps(response)
+        response["data"] = j.dumps(obj)
+    return j.dumps(response)
 
 
 #==========================================================
@@ -66,8 +66,8 @@ def format_response(success, obj):
 #/queue
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
-	entryList.getByPos(pos)
-	return format_response(True, pos)
+	this = entryList.getByPos(pos)
+	return format_response(True, this)
 
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
@@ -97,7 +97,7 @@ def removeById(uuid):
 @app.route('/api/1.0/enqueue', methods = ['POST'])
 def create():
     entryData = request.json
-    newEntry = entry(name = entryData.name, course = entryData.course, location = entryData.location)
+    newEntry = entry(name = entryData['name'], course = entryData['course'], location = entryData['location'])
     entryList.add(newEntry)
     return format_response(True, newEntry)
 

@@ -42,7 +42,7 @@ class EntryList:
 		return None
 
 	def getByPos(self, x):
-		if x > len(o) or x < 0:
+		if x > len(self.queue) or x < 0:
 			return None
 		return self.queue[x]
 
