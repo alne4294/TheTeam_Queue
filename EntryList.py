@@ -39,17 +39,19 @@ class EntryList:
 		return '\'' + s + '\''
 
 	def modify(self, obj):
-		for item in self.queue:
-			if item.eid == obj.eid:
-				item = obj
-				return obj
+		if self.remove(obj.eid) == True:
+			sql = "delete from " + tableName + " * where eid = " + self.wrapString(obj.eid) + ";"
+			with cur = self.conn.cursor():
+				cur.execute(sql)
+				cur.commit()
+			self.appendLeft(obj)
 
-	def remove(self, eid, duration):
+	def remove(self, eid, duration = -1):
 		for item in self.queue:
 			if item.eid == eid:
-				item.duration = duration
-				self.__updateDB()
-				self.queue(item)
+				if duration != -1:
+					item.duration = duration
+				self.queue.remove(item)
 				return True
 		return False # Wasn't found
 
