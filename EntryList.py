@@ -17,8 +17,12 @@ class EntryList:
 	def add(self, obj):
 		self.queue.append(obj)
 		#add to db
-		sql = 'insert into ' + tableName + ' values '
+		sql = 'insert into ' + tableName + ' values (' + self.objToDB(obj) + ');'
+		with cur = conn.cursor()
+			cur.execute(sql)
+			cur.commit()
 
+	@staticmethod
 	def objToDB(obj):
 		# should be in tableFormat with (x,x,'yyz') etc
 		eid = str(obj.eid)
@@ -28,10 +32,10 @@ class EntryList:
 		location = obj.location
 		duration = obj.duration
 		helpedBy = obj.helpedBy
-		return
+		return eid + ', ' + subtime + ', ' + self.wrapString(course) + ', ' + helped + ', '+ self.wrapString(location) + ', ' + self.wrapString(duration) + ', ' + self.wrapString(helpedBy)
 
 	@staticmethod
-	def __wrapString(s):
+	def wrapString(s):
 		return '\'' + s + '\''
 
 	def modify(self, obj):
