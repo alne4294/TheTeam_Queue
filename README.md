@@ -1,5 +1,5 @@
 # TheTeam_Queue
-_REST service for University of Colorado's Data Engineering Course, Spring 2015_
+REST service for University of Colorado's Data Engineering Course, Spring 2015
 
 ## Description
 This service will use Flask, Python, and SQLite to enqueue and dequeue students who are waiting for assistance from a Learning Assistant.
@@ -17,7 +17,7 @@ This service will use Flask, Python, and SQLite to enqueue and dequeue students 
 | GET | DELETE | POST | PUT | Prefix |
 | --- | ------ | ---- | --- | ------ | 
 | /queue | /remove/id/# | /enqueue | /modify/id/# | /api/1.0 |
-| /queue/id/# | | /dequeue/id#
+| /queue/id/# | | | /dequeue/id#
 | /queue/pos/# | 
 
 #### Returns
