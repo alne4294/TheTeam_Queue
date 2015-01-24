@@ -4,25 +4,25 @@ from uuid import uuid4
 
 
 class entry:
-	def __init__(self, name, course, location, helped = False, duration = -1, helpedBy = "Not Helped"):
-		self.name = str(name)
-		self.eid = str(uuid4())
-		self.subTime = str(datetime.now())
-		self.course = str(course)
-		self.helped = helped
-		self.location = str(location)
-		self.duration = duration
-		self.helpedBy = str(helpedBy)
-
-	def __init__(self, json):
-		self.name = json['name']
-		self.eid = json['eid']
-		self.subTime = json['subTime']
-		self.course = json['course']
-		self.helped = json['helped']
-		self.location = json['location']
-		self.duration = json['duration']
-		self.helpedBy = json['helpedBy']
+	def __init__(self, name = None, course = None, location = None, helped = False, duration = -1, helpedBy = "Not Helped", jsonStr = None):
+		if jsonStr == None:
+			self.name = str(name)
+			self.eid = str(uuid4())
+			self.subTime = str(datetime.now())
+			self.course = str(course)
+			self.helped = helped
+			self.location = str(location)
+			self.duration = duration
+			self.helpedBy = str(helpedBy)
+		elif jsonStr:
+			self.name = jsonStr['name']
+			self.eid = jsonStr['eid']
+			self.subTime = jsonStr['subTime']
+			self.course = jsonStr['course']
+			self.helped = jsonStr['helped']
+			self.location = jsonStr['location']
+			self.duration = jsonStr['duration']
+			self.helpedBy = jsonStr['helpedBy']
 
 
 
