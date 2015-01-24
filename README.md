@@ -28,6 +28,8 @@ This service will use Flask, Python, and SQLite to enqueue and dequeue students 
 
 #### Data Format
 JSON
+
+Class named Entry:
 ```
 {"name":string,
 "time_submitted":dateTime,
