@@ -96,7 +96,7 @@ def removeById(uuid):
 #/enqueue
 @app.route('/api/1.0/enqueue', methods = ['POST'])
 def create():
-    entryData = request.json
+    entryData = request.get_json(force=True)
     newEntry = entry(name = entryData['name'], course = entryData['course'], location = entryData['location'])
     entryList.add(newEntry)
     return format_response(True, newEntry)
@@ -107,7 +107,7 @@ def create():
 #/modify/id/#
 @app.route('/api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
 def modify(uuid):
-    entryData = request.json
+    entryData = request.get_json(force=True)
     modifiedData = entry(entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
@@ -117,7 +117,7 @@ def modify(uuid):
 #/dequeue/id/#
 @app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
 def dequeue(uuid):
-    entryData = request.json
+    entryData = request.get_json(force=True)
     modifiedData = entry(entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
