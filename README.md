@@ -71,7 +71,7 @@ y = request.json
 ```
 
 #### Queue API
-```python
+```
 entryList.add(entry)
          .modify(entry)
          .remove(entry)
