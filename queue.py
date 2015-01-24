@@ -66,14 +66,18 @@ def format_response(success, obj):
 #/queue
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
-	this = entryList.getByPos(pos)
-	return format_response(True, this)
+	entry = entryList.getByPos(pos)
+    isTrue = True
+    if entry == None:
+        isTrue = False
+        entry = "No entry at position: " + pos
+	return format_response(isTrue, entry)
 
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):
 	entryList.getById(uuid)
-	return format(True, uuid)
+	return format_response(True, uuid)
 
 #/queue/pos/#
 @app.route('/api/1.0/queue')
@@ -88,7 +92,7 @@ def getQueue():
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
 	entryList.remove(uuid)
-	return format(True, uuid)
+	return format_response(True, uuid)
 
 #==========================================================
 #POST
