@@ -7,18 +7,26 @@ class EntryList:
 	tableFormat = "(eid TEXT PRIMARY KEY, subtime TEXT, course TEXT, helped TEXT, location TEXT, duration INT, helpedby TEXT)"
 
 	def __init__(self, obj=None):
-		# self.conn = sqlite3.connect(databaseFilename)
-		# with cur = conn.cursor():
-		# 	sql = 'create table if not exists ' + tableName + tableFormat
-		# 	cur.execute(sql)
-		# 	cur.commit()
+		self.conn = sqlite3.connect(databaseFilename)
+		with cur = conn.cursor():
+			sql = 'create table if not exists ' + tableName + tableFormat
+			cur.execute(sql)
+			cur.commit()
 		self.queue = collections.deque()
 
 	def add(self, obj):
 		self.queue.append(obj)
 		#add to db
+		sql = 'insert into ' + tableName + ' values '
 
-	# def objToDB()
+	def objToDB(obj):
+		# should be in tableFormat with (x,x,'yyz') etc
+		eid = str(obj.eid)
+		subtime = str(obj.subTime)
+		course = obj.course
+		helped = str(obj.helped)
+		location = obj.location
+		duration = 
 
 	def modify(self, obj):
 		for item in self.queue:
