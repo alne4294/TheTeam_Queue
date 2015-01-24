@@ -4,16 +4,21 @@ import collections
 class EntryList:
 	databaseFilename = "./entries.sqlite3"
 	tableName = "Entries"
+	tableFormat = "(eid TEXT PRIMARY KEY, subtime TEXT, course TEXT, helped TEXT, location TEXT, duration INT, helpedby TEXT)"
 
 	def __init__(self, obj=None):
-		self.conn = sqlite3.connect('data.db')
-		with cur = conn.cursor():
-			
+		# self.conn = sqlite3.connect(databaseFilename)
+		# with cur = conn.cursor():
+		# 	sql = 'create table if not exists ' + tableName + tableFormat
+		# 	cur.execute(sql)
+		# 	cur.commit()
 		self.queue = collections.deque()
 
 	def add(self, obj):
 		self.queue.append(obj)
 		#add to db
+
+	# def objToDB()
 
 	def modify(self, obj):
 		for item in self.queue:
