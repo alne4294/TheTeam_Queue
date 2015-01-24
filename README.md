@@ -7,7 +7,7 @@ This service will use Flask, Python, and SQLite to enqueue and dequeue students 
 #### Data Contents
 * Name 
 * Time Submitted
-* Class
+* Course
 * If Helped
 * Location
 * Duration
@@ -33,7 +33,7 @@ Class named Entry:
 ```
 {"name":string,
 "time_submitted":dateTime,
-"class":string,
+"course":string,
 "helped":bool,
 "location":string,
 "duration":int,
@@ -57,4 +57,9 @@ def format(bool, obj)
 Example PUSH Request:
 ```python
 @app.route('url',methods=['PUSH'])
+```
+
+To get posted object:
+```python
+y = request.json
 ```
