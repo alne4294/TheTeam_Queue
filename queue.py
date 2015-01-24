@@ -6,40 +6,10 @@ from flask import Flask, request
 from collections import deque
 import json as j
 from uuid import uuid4
-
+from entry import entry
 
 app = Flask(__name__)
 entryList = EntryList()
-
-#==========================================================
-#Entry class
-
-class entry:
-    def __init__(self, name, course, location, helped = False, duration = -1, helpedBy = "Not Helped"):
-        self.name = str(name)
-        self.eid = str(uuid4())
-        self.subTime = str(datetime.now())
-        self.course = str(course)
-        self.helped = helped
-        self.location = str(location)
-        self.duration = duration
-        self.helpedBy = str(helpedBy)
-
-    # def __init__(self, json):
-    #     self.name = json['name']
-    #     self.eid = json['eid']
-    #     self.subTime = json['subTime']
-    #     self.course = json['course']
-    #     self.helped = json['helped']
-    #     self.location = json['location']
-    #     self.duration = json['duration']
-    #     self.helpedBy = json['helpedBy']
-
-
-    def format(self):
-        return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
-                       "course": self.course, "helped": self.helped, "location": self.location,
-                       "duration": self.duration, "helpedBy": self.helpedBy})
 
 #==========================================================
 #Formats response to JSON
@@ -65,7 +35,7 @@ def format_response(success, obj):
 #/queue
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
-	entry = entryList.getByPos(pos)
+    entry = entryList.getByPos(pos)
     isTrue = True
     if entry == None:
         isTrue = False
@@ -75,7 +45,7 @@ def getByPos(pos):
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):
-	entry = entryList.getById(uuid)
+    entry = entryList.getById(uuid)
     isTrue = True
     if entry == None:
         isTrue = False
