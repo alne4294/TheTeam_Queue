@@ -1,5 +1,4 @@
-
-#Revieves REST requests from server for a queue
+#Handles REST requests from server for a queueing system
 
 from datetime import datetime
 import collections
