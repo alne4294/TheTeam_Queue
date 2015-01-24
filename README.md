@@ -38,12 +38,13 @@ _JSON_
 Class named Entry:
 ```
 {"name":string,
-"time_submitted":dateTime,
+"subTime":dateTime,
 "course":string,
 "helped":bool,
 "location":string,
 "duration":int,
-"helpedBy":string}
+"helpedBy":string
+"id":int(unique)}
 ```
 
 #### Request Examples
