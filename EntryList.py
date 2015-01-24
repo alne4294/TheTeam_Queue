@@ -16,7 +16,11 @@ class EntryList:
 		#find, modify, return
 
 	def remove(self, eid, duration):
-		# iterate queue, find by id, remove
+		for item in self.queue:
+			if item.eid == eid:
+				item.duration = duration
+				self.__updateDB()
+				self.queue(item)
 
 	def getById(self, x):
 		for item in self.queue:
@@ -32,3 +36,6 @@ class EntryList:
 	def getAll(self):
 		return self.queue
 
+	def __updateDB(self):
+		# called every time queue is changed
+		return None
