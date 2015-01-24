@@ -16,7 +16,7 @@ This service will use Flask, Python, and SQLite to enqueue and dequeue students 
 #### Requests
 | GET | DELETE | POST | PUT | Prefix |
 | --- | ------ | ---- | --- | ------ | 
-| /queue | /remove/io/# | /enqueue | /modify/id/# | /api/1.0 |
+| /queue | /remove/id/# | /enqueue | /modify/id/# | /api/1.0 |
 | /queue/id/# | | /dequeue/id#
 | /queue/pos/# | 
 
