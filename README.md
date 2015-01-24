@@ -42,7 +42,7 @@ JSON
 Python/Flask
 
 Example GET Request:
-```
+```python
 @app.route('/api/1.0/queue/pos/<int:x>')
 def getPos(x):
   findInDatabase(x)
