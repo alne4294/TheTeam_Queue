@@ -1,7 +1,12 @@
 #Handles REST requests from server for a queueing system
 
 from datetime import datetime
+from EntryList import EntryList
+from flask import Flask
 import collections
+
+app = Flask(__name__)
+entryList = EntryList()
 
 #==========================================================
 #GET
@@ -10,19 +15,19 @@ import collections
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
 	entryList.getByPos(pos)
-	return, format_response(True, pos)
+	return format_response(True, pos)
 
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):
 	entryList.getById(uuid)
-	return, format(True, uuid)
+	return format(True, uuid)
 
 #/queue/pos/#
 @app.route('/api/1.0/queue')
 def getQueue():
 	entries = entryList.getAll()
-	return, format_response(True, entries)
+	return format_response(True, entries)
 
 #==========================================================
 #DELETE
@@ -31,7 +36,7 @@ def getQueue():
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
 	entryList.remove(uuid)
-	return, format(True, uuid)
+	return format(True, uuid)
 
 #==========================================================
 #POST
@@ -48,7 +53,7 @@ def create():
 #PUT
 
 #/modify/id/#
-@app.route('api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
+@app.route('/api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
 def modify(uuid):
     entryData = request.json
     modifiedData = entry(entryData)
@@ -58,7 +63,7 @@ def modify(uuid):
     return format_response(True, entryList.getById(modifiedData.eid))
 
 #/dequeue/id/#
-@app.route('api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
+@app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
 def dequeue(uuid):
     entryData = request.json
     modifiedData = entry(entryData)
@@ -69,3 +74,7 @@ def dequeue(uuid):
         return format_response(success, modifiedData)
     else:
         return format_response(success, "The entry was not dequeued successfully")
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
