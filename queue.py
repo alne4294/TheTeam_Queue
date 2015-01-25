@@ -36,7 +36,6 @@ class entry:
     #     self.helpedBy = json['helpedBy']
 
 
-
     def format(self):
         return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
                        "course": self.course, "helped": self.helped, "location": self.location,
@@ -66,14 +65,22 @@ def format_response(success, obj):
 #/queue
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
-	this = entryList.getByPos(pos)
-	return format_response(True, this)
+	entry = entryList.getByPos(pos)
+    isTrue = True
+    if entry == None:
+        isTrue = False
+        entry = "No entry at position: " + pos
+	return format_response(isTrue, entry)
 
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):
-	entryList.getById(uuid)
-	return format(True, uuid)
+	entry = entryList.getById(uuid)
+    isTrue = True
+    if entry == None:
+        isTrue = False
+        entry = "No entry at ID: " + uuid
+	return format_response(isTrue, entry)
 
 #/queue/pos/#
 @app.route('/api/1.0/queue')
@@ -88,7 +95,7 @@ def getQueue():
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
 	entryList.remove(uuid)
-	return format(True, uuid)
+	return format_response(True, uuid)
 
 #==========================================================
 #POST
@@ -108,7 +115,8 @@ def create():
 @app.route('/api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
 def modify(uuid):
     entryData = request.get_json(force=True)
-    modifiedData = entry(entryData)
+    modifiedData = entry(jsonstr = entryData)
+
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
     entryList.modify(modifiedData)
@@ -118,7 +126,7 @@ def modify(uuid):
 @app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
 def dequeue(uuid):
     entryData = request.get_json(force=True)
-    modifiedData = entry(entryData)
+    modifiedData = entry(jsonstr=entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
     success = entryList.remove(modifiedData)
