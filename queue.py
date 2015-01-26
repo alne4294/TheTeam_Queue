@@ -54,10 +54,16 @@ def getById(uuid):
     return format_response(isTrue, entry)
 
 #/queue/pos/#
-@app.route('/api/1.0/queue')
-def getQueue():
-    entries = entryList.getAll()
-    return format_response(True, entries)
+@app.route('/api/1.0/queue', methods = ['GET','POST'])
+def getPostQueue():
+    if request.method == 'GET':
+        entries = entryList.getAll()
+        return format_response(True, entries)
+    elif if request.method == 'POST':
+        entryData = request.get_json(force=True)
+        newEntry = entry(name = entryData['name'], course = entryData['course'], location = entryData['location'])
+        entryList.add(newEntry)
+        return format_response(True, newEntry)
 
 #==========================================================
 #DELETE
@@ -68,16 +74,6 @@ def removeById(uuid):
     entryList.remove(uuid)
     return format_response(True, uuid)
 
-#==========================================================
-#POST
-
-#/enqueue
-@app.route('/api/1.0/enqueue', methods = ['POST'])
-def create():
-    entryData = request.get_json(force=True)
-    newEntry = entry(name = entryData['name'], course = entryData['course'], location = entryData['location'])
-    entryList.add(newEntry)
-    return format_response(True, newEntry)
 
 #==========================================================
 #PUT
