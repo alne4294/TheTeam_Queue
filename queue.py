@@ -51,12 +51,12 @@ def format_response(success, obj):
         for elt in obj:
             data += elt.format() + ","
             data += "]"
-            response["data"] = data
+        response["data"] = data
     elif isinstance(obj, entry):
         response["data"] = obj.format()
     else:
         response["data"] = j.dumps(obj)
-        return j.dumps(response)
+    return j.dumps(response)
 
 
 #==========================================================

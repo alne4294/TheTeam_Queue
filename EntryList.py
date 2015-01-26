@@ -7,22 +7,27 @@ class EntryList:
 	tableFormat = "(eid TEXT PRIMARY KEY, subtime TEXT, course TEXT, helped TEXT, location TEXT, duration INT, helpedby TEXT)"
 
 	def __init__(self, obj=None):
-		self.conn = sqlite3.connect(self.databaseFilename)
-		cur = self.conn.cursor()
+		conn = sqlite3.connect(self.databaseFilename)
+		cur = conn.cursor()
 		sql = 'create table if not exists ' + self.tableName + self.tableFormat
 		cur.execute(sql)
-		self.conn.commit()
+		conn.commit()
 		self.queue = deque()
-		cur.close()
+		conn.close()
 
 	def add(self, obj):
 		self.queue.append(obj)
 		#add to db
-		sql = 'insert into ' + self.tableName + ' values (' + self.objToDB(obj) + ');'
-		cur = self.conn.cursor()
-		cur.execute(sql)
-		self.conn.commit()
-		cur.close()
+		try:
+			conn = sqlite3.connect(self.databaseFilename)
+			cur = conn.cursor()
+			sql = 'insert into ' + self.tableName + ' values (' + self.objToDB(obj) + ');'
+			cur.execute(sql)
+			conn.commit()
+			conn.close()
+		except:
+			return "error"
+
 
 	def objToDB(self, obj):
 		# should be in tableFormat with (x,x,'yyz') etc
@@ -41,10 +46,11 @@ class EntryList:
 	def modify(self, obj):
 		if self.remove(obj.eid) == True:
 			sql = "delete from " + self.tableName + " * where eid = " + self.wrapString(obj.eid) + ";"
-			cur = self.conn.cursor()
+			conn = sqlite3.connect(self.databaseFilename)
+			cur = conn.cursor()
 			cur.execute(sql)
-			self.conn.commit()
-			cur.close()
+			conn.commit()
+			conn.close()
 			self.appendLeft(obj)
 
 	def remove(self, eid, duration = -1):
