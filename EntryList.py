@@ -92,7 +92,3 @@ class EntryList:
 
 	def getAll(self):
 		return self.queue
-
-	def __updateDB(self):
-		# called every time queue is changed
-		return None

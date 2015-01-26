@@ -26,12 +26,12 @@ class entry:
 
     def format(self):
         return {
-        "name": self.name, 
-        "eid": self.eid,
-        "subTime":self.subTime,
-        "course": self.course,
-        "helped": self.helped,
-        "location": self.location,
-        "duration": self.duration,
-        "helpedBy": self.helpedBy 
+            "name": self.name, 
+            "eid": self.eid,
+            "subTime":self.subTime,
+            "course": self.course,
+            "helped": self.helped,
+            "location": self.location,
+            "duration": self.duration,
+            "helpedBy": self.helpedBy 
         }
