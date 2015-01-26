@@ -38,8 +38,8 @@ class entry:
 
     def format(self):
         return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
-                       "course": self.course, "helped": self.helped, "location": self.location,
-                       "duration": self.duration, "helpedBy": self.helpedBy})
+         "course": self.course, "helped": self.helped, "location": self.location,
+         "duration": self.duration, "helpedBy": self.helpedBy})
 
 #==========================================================
 #Formats response to JSON
@@ -50,13 +50,13 @@ def format_response(success, obj):
         data = "["
         for elt in obj:
             data += elt.format() + ","
-        data += "]"
-        response["data"] = data
+            data += "]"
+            response["data"] = data
     elif isinstance(obj, entry):
         response["data"] = obj.format()
     else:
         response["data"] = j.dumps(obj)
-    return j.dumps(response)
+        return j.dumps(response)
 
 
 #==========================================================
@@ -65,28 +65,28 @@ def format_response(success, obj):
 #/queue
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
-	entry = entryList.getByPos(pos)
+    entry = entryList.getByPos(pos)
     isTrue = True
     if entry == None:
         isTrue = False
         entry = "No entry at position: " + pos
-	return format_response(isTrue, entry)
+    return format_response(isTrue, entry)
 
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):
-	entry = entryList.getById(uuid)
+    entry = entryList.getById(uuid)
     isTrue = True
     if entry == None:
         isTrue = False
         entry = "No entry at ID: " + uuid
-	return format_response(isTrue, entry)
+    return format_response(isTrue, entry)
 
 #/queue/pos/#
 @app.route('/api/1.0/queue')
 def getQueue():
-	entries = entryList.getAll()
-	return format_response(True, entries)
+    entries = entryList.getAll()
+    return format_response(True, entries)
 
 #==========================================================
 #DELETE
@@ -94,8 +94,8 @@ def getQueue():
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
-	entryList.remove(uuid)
-	return format_response(True, uuid)
+    entryList.remove(uuid)
+    return format_response(True, uuid)
 
 #==========================================================
 #POST
@@ -129,11 +129,11 @@ def dequeue(uuid):
     modifiedData = entry(jsonstr=entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
-    success = entryList.remove(modifiedData)
-    if success:
-        return format_response(success, modifiedData)
-    else:
-        return format_response(success, "The entry was not dequeued successfully")
+        success = entryList.remove(modifiedData)
+        if success:
+            return format_response(success, modifiedData)
+        else:
+            return format_response(success, "The entry was not dequeued successfully")
 
 if __name__ == '__main__':
     app.debug = True

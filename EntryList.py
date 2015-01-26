@@ -7,43 +7,44 @@ class EntryList:
 	tableFormat = "(eid TEXT PRIMARY KEY, subtime TEXT, course TEXT, helped TEXT, location TEXT, duration INT, helpedby TEXT)"
 
 	def __init__(self, obj=None):
-		self.conn = sqlite3.connect(databaseFilename)
-		with cur = conn.cursor():
-			sql = 'create table if not exists ' + tableName + tableFormat
-			cur.execute(sql)
-			cur.commit()
+		self.conn = sqlite3.connect(self.databaseFilename)
+		cur = self.conn.cursor()
+		sql = 'create table if not exists ' + self.tableName + self.tableFormat
+		cur.execute(sql)
+		self.conn.commit()
 		self.queue = deque()
+		cur.close()
 
 	def add(self, obj):
 		self.queue.append(obj)
 		#add to db
-		sql = 'insert into ' + tableName + ' values (' + self.objToDB(obj) + ');'
-		with cur = conn.cursor()
-			cur.execute(sql)
-			cur.commit()
+		sql = 'insert into ' + self.tableName + ' values (' + self.objToDB(obj) + ');'
+		cur = self.conn.cursor()
+		cur.execute(sql)
+		self.conn.commit()
+		cur.close()
 
-	@staticmethod
-	def objToDB(obj):
+	def objToDB(self, obj):
 		# should be in tableFormat with (x,x,'yyz') etc
 		eid = str(obj.eid)
 		subtime = str(obj.subTime)
 		course = obj.course
 		helped = str(obj.helped)
 		location = obj.location
-		duration = obj.duration
+		duration = str(obj.duration)
 		helpedBy = obj.helpedBy
-		return self.wrapString(eid) + ', ' + self.wrapString(subtime) + ', ' + self.wrapString(course) + ', ' + self.wrapString(helped) + ', '+ self.wrapString(location) + ', ' + self.wrapString(duration) + ', ' + self.wrapString(helpedBy)
+		return self.wrapString(eid) + ', ' + self.wrapString(subtime) + ', ' + self.wrapString(course) + ', ' + self.wrapString(helped) + ', '+ self.wrapString(location) + ', ' + duration + ', ' + self.wrapString(helpedBy)
 
-	@staticmethod
-	def wrapString(s):
+	def wrapString(self, s):
 		return '\'' + s + '\''
 
 	def modify(self, obj):
 		if self.remove(obj.eid) == True:
-			sql = "delete from " + tableName + " * where eid = " + self.wrapString(obj.eid) + ";"
-			with cur = self.conn.cursor():
-				cur.execute(sql)
-				cur.commit()
+			sql = "delete from " + self.tableName + " * where eid = " + self.wrapString(obj.eid) + ";"
+			cur = self.conn.cursor()
+			cur.execute(sql)
+			self.conn.commit()
+			cur.close()
 			self.appendLeft(obj)
 
 	def remove(self, eid, duration = -1):
