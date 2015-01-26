@@ -25,6 +25,13 @@ class entry:
 
 
     def format(self):
-        return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
-         "course": self.course, "helped": self.helped, "location": self.location,
-         "duration": self.duration, "helpedBy": self.helpedBy})
+        return {
+        "name": self.name, 
+        "eid": self.eid,
+        "subTime":self.subTime,
+        "course": self.course,
+        "helped": self.helped,
+        "location": self.location,
+        "duration": self.duration,
+        "helpedBy": self.helpedBy 
+        }
