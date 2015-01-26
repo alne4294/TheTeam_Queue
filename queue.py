@@ -1,6 +1,7 @@
 #Handles REST requests from server for a queueing system
 
 from datetime import datetime
+from Entry import entry
 from EntryList import EntryList
 from flask import Flask, request
 from collections import deque
@@ -10,36 +11,6 @@ from uuid import uuid4
 
 app = Flask(__name__)
 entryList = EntryList()
-
-#==========================================================
-#Entry class
-
-class entry:
-    def __init__(self, name, course, location, helped = False, duration = -1, helpedBy = "Not Helped"):
-        self.name = str(name)
-        self.eid = str(uuid4())
-        self.subTime = str(datetime.now())
-        self.course = str(course)
-        self.helped = helped
-        self.location = str(location)
-        self.duration = duration
-        self.helpedBy = str(helpedBy)
-
-    # def __init__(self, json):
-    #     self.name = json['name']
-    #     self.eid = json['eid']
-    #     self.subTime = json['subTime']
-    #     self.course = json['course']
-    #     self.helped = json['helped']
-    #     self.location = json['location']
-    #     self.duration = json['duration']
-    #     self.helpedBy = json['helpedBy']
-
-
-    def format(self):
-        return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
-         "course": self.course, "helped": self.helped, "location": self.location,
-         "duration": self.duration, "helpedBy": self.helpedBy})
 
 #==========================================================
 #Formats response to JSON
