@@ -38,4 +38,20 @@ class HelpRequests:
         (status, reason, obj) = handle_request('GET', '/api/1.0/queue/id/' + entryId, None)
         return (status, reason, createEntryFromResponse(obj))
     
-    def 
+    def create(name, course, location):
+        data = '{"name":"' + name + '", "course":"' + course + '", "location":"' + location + '"}'
+        (status, reason, obj) = handle_request('POST', '/api/1.0/queue/' + entryId, data)
+        return (status, reason, createEntryFromResponse(obj))
+
+    def delete(entryId):
+        (status, reason, obj) = handle_request('DELETE', '/api/1.0/queue/id/' + entryId, None)
+        return (status, reason, createEntryFromResponse(obj))
+
+    def modify(entryId, entry):
+        (status, reason, obj) = handle_request('PUT', '/api/1.0/modify/id/' + entryId, entry)
+        return (status, reason, createEntryFromResponse(obj))
+
+    def dequeue(entryId, entry):
+        (status, reason, obj) = handle_request('PUT', '/api/1.0/dequeue/id/' + entryId, entry)
+        return (status, reason, createEntryFromResponse(obj))
+        
