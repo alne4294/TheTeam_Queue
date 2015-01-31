@@ -40,7 +40,7 @@ def getByPos(pos):
         isTrue = True
         if entry == None:
             isTrue = False
-            entry = "No entry at position: " + pos
+            entry = "No entry at position: " + str(pos)
         return format_response(isTrue, entry)
     else:
         return format_response(False, "Need a GET request at this endpoint")
