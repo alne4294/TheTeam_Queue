@@ -1,7 +1,7 @@
 #Handles REST requests from server for a queueing system
 
 from datetime import datetime
-from entry import entry
+from Entry import entry
 from EntryList import EntryList
 from flask import Flask, request, jsonify
 from collections import deque
@@ -62,6 +62,8 @@ def getById(uuid):
 def getPostQueue():
     if request.method == 'GET':
         entries = entryList.getAll()
+        if (len(entries) > 0):
+            entries = entries[0]
         return format_response(True, entries)
     elif request.method == 'POST':
         entryData = request.get_json(force=True)
