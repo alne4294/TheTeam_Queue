@@ -15,12 +15,12 @@ print "The object by id"
 print a.getById(addedEntry.eid)[-1]
 print "Modifying the object"
 addedEntry.name = "David"
-addedEntry = a.modify(addedEntry.eid, addedEntry)
-print "Dequeue an entry"
-dequeueEntry = a.create("Alpha","Bravo","Charlie")[-1]
-print "Current length of the queue"
-print len(a.getCurrentQueue()[-1])
-a.dequeue(addedEntry.eid, addedEntry)
+addedEntry = a.modify(addedEntry)
+# print "Dequeue an entry"
+# dequeueEntry = a.create("Alpha","Bravo","Charlie")[-1]
+# print "Current length of the queue"
+# print len(a.getCurrentQueue()[-1])
+# a.dequeue(addedEntry.eid, addedEntry)
 print "Delete an entry"
 print "Current Length of the queue"
 print len(a.getCurrentQueue()[-1])

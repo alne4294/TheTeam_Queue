@@ -6,13 +6,14 @@ from entry import entry
 
 class HelpRequests:
     def createEntryFromResponse(self, response):
+        print response
         response_obj =json.loads(response)
         if response_obj["error"]:
             return None
         b = response_obj["data"]
         print "#################"
         print json.loads(b)
-        return entry(jsonStr=b)
+        return entry(jsonStr=json.loads(b))
 
     def createListOfEntryFromResponse(self, response):
 #        response = response.replace("\\", "")
@@ -51,11 +52,7 @@ class HelpRequests:
         (status, reason, obj) = self.handle_request('DELETE', '/api/1.0/queue/id/' + str(entryId), None)
         return (status, reason, self.createEntryFromResponse(obj))
 
-    def modify(self, entryId, entry):
-        (status, reason, obj) = self.handle_request('PUT', '/api/1.0/modify/id/' + str(entryId), entry.format())
-        return (status, reason, self.createEntryFromResponse(obj))
-
-    def dequeue(self, entryId, entry):
-        (status, reason, obj) = self.handle_request('PUT', '/api/1.0/dequeue/id/' + str(entryId), entry.format())
+    def modify(self, entry):
+        (status, reason, obj) = self.handle_request('PUT', '/api/1.0/modify', entry.format())
         return (status, reason, self.createEntryFromResponse(obj))
         
