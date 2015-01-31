@@ -9,7 +9,7 @@ class EntryList:
 
 	def __init__(self, obj=None, testing=False):
 		self.conn = sqlite3.connect(self.databaseFilename, check_same_thread=False)
-		self.queue = deque()
+		self.queue = []
 		with self.conn:
 			cur = self.conn.cursor()
 			drop = "drop table if exists " + self.tableName
@@ -50,7 +50,6 @@ class EntryList:
 
 	def objToDB(self, obj):
 		# should be in tableFormat with (x,x,'yyz') etc
-		print obj
 		eid = obj.eid
 		name = obj.name
 		subtime = obj.subTime
@@ -65,9 +64,13 @@ class EntryList:
 		return '\'' + s + '\''
 
 	def modify(self, obj):
-		if self.remove(obj['eid']) == True:
-			self.add(obj)
-			return obj
+		something = entry(jsonStr=obj)
+		n = 0
+		for item in self.queue:
+			if item.eid == something.eid:
+				self.queue[n] = something
+			n+=1
+			return something
 		return "EID not found in queue"
 
 	def remove(self, eid, duration = -1):
@@ -79,12 +82,12 @@ class EntryList:
 				return True
 		return False # Wasn't found
 
-	def deleteFromDB(self, uuid):
-		query = "delete from " + self.tableName + " * where eid = " + wrapString(uuid) + ";"
-		with self.conn:
-			cur = self.conn.cursor()
-			cur.execute(query)
-			self.conn.commit()
+	# def deleteFromDB(self, uuid):
+	# 	query = "delete from " + self.tableName + " * where eid = " + self.wrapString(uuid) + ";"
+	# 	with self.conn:
+	# 		cur = self.conn.cursor()
+	# 		cur.execute(query)
+	# 		self.conn.commit()
 
 	def clearDb(self):
 		with self.conn:

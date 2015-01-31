@@ -72,12 +72,12 @@ def getPostQueue():
         return format_response(False, "Need a GET/POST request at this endpoint")
 
 #==========================================================
-#DELETE
+#deleteFromDb
 
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
-    entryList.remove(uuid)
+    #entryList.deleteFromDB(uuid)
     return format_response(True, uuid)
 
 
@@ -91,7 +91,7 @@ def modify():
     if 'eid' not in obj:
         return format_response(False, "Need to include an EID to modify.")
     back = entryList.modify(obj)
-    success = True if isinstance(back, Entry) else False
+    success = True if isinstance(back, entry) else False
     return format_response(success, back)
 
 if __name__ == '__main__':
