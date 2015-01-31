@@ -15,14 +15,14 @@ class entry:
 			self.duration = duration
 			self.helpedBy = str(helpedBy)
 		elif jsonStr:
-			self.name = jsonStr['name']
-			self.eid = jsonStr['eid']
-			self.subTime = jsonStr['subTime']
-			self.course = jsonStr['course']
-			self.helped = jsonStr['helped']
-			self.location = jsonStr['location']
-			self.duration = jsonStr['duration']
-			self.helpedBy = jsonStr['helpedBy']
+			self.name = jsonStr["name"]
+			self.eid = jsonStr["eid"]
+			self.subTime = jsonStr["subTime"]
+			self.course = jsonStr["course"]
+			self.helped = jsonStr["helped"]
+			self.location = jsonStr["location"]
+			self.duration = jsonStr["duration"]
+			self.helpedBy = jsonStr["helpedBy"]
 
 
 
