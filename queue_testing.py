@@ -69,8 +69,6 @@ class FlaskTestCase(unittest.TestCase):
 
 
 
-
-
     def test_put_modify(self):
 
         #Add a record
@@ -80,15 +78,6 @@ class FlaskTestCase(unittest.TestCase):
         jsonE = json.loads(resp.data)
         eid = jsonE["data"]["eid"]
         self.assertEqual(resp.status_code, 200)
-
-        # #Check that the record we just inserted exists
-        # entry = self.app.get('/api/1.0/queue/pos/0')
-        # jsonEntry = json.loads(entry.data)
-        # self.assertEqual(jsonEntry['data']['name'], "NAME")
-        # self.assertEqual(entry.status_code, 200)
-
-
-        # eid = jsonEntry['data']['eid']
 
         #Modify entry w/ eid
         modData = dict(name= "NEWNAME", location="NEWLOC", course="NEWCOURSE", eid = eid)
@@ -105,12 +94,6 @@ class FlaskTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
 
 
-        #Check that there are no records in the queue
-        # entry = self.app.get('/api/1.0/queue')
-        # jsonEntry = json.loads(entry.data)
-        # print jsonEntry
-        # self.assertEqual(jsonEntry['data'], [])
-        # self.assertEqual(entry.status_code, 200) 
 
 if __name__ == '__main__':
     unittest.main()
