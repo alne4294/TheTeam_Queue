@@ -62,8 +62,6 @@ def getById(uuid):
 def getPostQueue():
     if request.method == 'GET':
         entries = entryList.getAll()
-        if (len(entries) > 0):
-            entries = entries[0]
         return format_response(True, entries)
     elif request.method == 'POST':
         entryData = request.get_json(force=True)
@@ -79,6 +77,7 @@ def getPostQueue():
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
+    entry = entryList.getById(uuid)
     entryList.remove(uuid)
     entryList.deleteFromDB(uuid)
     return format_response(True, entry)
@@ -96,19 +95,6 @@ def modify():
     back = entryList.modify(obj)
     success = True if isinstance(back, entry) else False
     return format_response(success, back)
-
-#/dequeue/id/#
-@app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
-def dequeue(uuid):
-    entryData = request.get_json(force=True)
-    modifiedData = entry(jsonStr=entryData)
-    if entry.eid != UUID(uuid):
-        return format_response(False, "The modified entry does not match the provided id")
-        success = entryList.remove(modifiedData)
-        if success:
-            return format_response(success, modifiedData)
-        else:
-            return format_response(success, "The entry was not dequeued successfully")
 
 if __name__ == '__main__':
     app.debug = True
