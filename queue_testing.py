@@ -17,29 +17,56 @@ class FlaskTestCase(unittest.TestCase):
         os.close(self.db_fd)
         os.unlink(queue.app.config['DATABASE'])
 
+    #=========================================================
+    #TEST EMPTY GET
+
     def test_getByPos(self):
-        entry = self.app.get('/api/1.0/queue/pos/0')
+        entry = self.app.get('/api/1.0/queue/pos/1')
+        jsonEntry = json.loads(entry.data)
+        self.assertEqual(jsonEntry['data'], "No entry at position: 1")
         self.assertEqual(entry.status_code, 200)
 
-    def test_getQueue(self):
+    def test_getById(self):
+        entry = self.app.get('/api/1.0/queue/id/"12345"')
+        jsonEntry = json.loads(entry.data)
+        self.assertEqual(jsonEntry['data'], 'No entry at ID: "12345"')
+        self.assertEqual(entry.status_code, 200)
+
+    def test__get_getPostQueue(self):
+        entry = self.app.get('/api/1.0/queue')
+        self.assertEqual(entry.status_code, 200)
+
+    #=========================================================
+    #TEST POST, PUT, DELETE
+
+    def test_post_getPostQueue(self):
+
+        #Add a record
         testData = dict(name= "Justin", location= "test1", course= "compsci")
         resp = self.app.post('/api/1.0/queue', data=json.dumps(testData), content_type='application/json')
         back =  json.loads(resp.get_data())
         self.assertEqual(resp.status_code, 200)
 
-        # assert 'No entries here so far' in entry.data
-        # tester = queue.app.test_client(self)
-        # response = tester.get('/getByPos?pos=1', content_type='application/json')
-        # self.assertEqual(response.status_code, 200)
-        # self.assertEqual(json.loads(response.data), {"result": 8})
+        #Check that the record we just inserted exists
+        entry = self.app.get('/api/1.0/queue/pos/0')
+        jsonEntry = json.loads(entry.data)
+        self.assertEqual(jsonEntry['data']['name'], "Justin")
+        self.assertEqual(entry.status_code, 200)
 
-    # # This test will purposely fail
-    # # We are checking that 2+6 is 10
-    # def test_sum_fail(self):
-    #     tester = app.test_client(self)
-    #     response = tester.get('/_add_numbers?a=2&b=6', content_type='application/json')
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(json.loads(response.data), {"result": 10})
+        eid = jsonEntry['data']['eid']
+
+        #Remove the record we just added
+        resp = self.app.delete('/api/1.0/queue/id/'+eid, data=json.dumps(testData), content_type='application/json')
+        back =  json.loads(resp.get_data())
+        self.assertEqual(resp.status_code, 200)
+
+
+        #Check that there are no records in the queue
+        entry = self.app.get('/api/1.0/queue')
+        jsonEntry = json.loads(entry.data)
+        print jsonEntry
+        self.assertEqual(jsonEntry['data'], [])
+        self.assertEqual(entry.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()
