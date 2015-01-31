@@ -77,8 +77,10 @@ def getPostQueue():
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
-    #entryList.deleteFromDB(uuid)
-    return format_response(True, uuid)
+    entry = entryList.getById(uuid)
+    entryList.remove(uuid)
+    # entryList.deleteFromDB(uuid)
+    return format_response(True, entry)
 
 
 #==========================================================

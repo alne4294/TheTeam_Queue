@@ -82,12 +82,13 @@ class EntryList:
 				return True
 		return False # Wasn't found
 
-	# def deleteFromDB(self, uuid):
-	# 	query = "delete from " + self.tableName + " * where eid = " + self.wrapString(uuid) + ";"
-	# 	with self.conn:
-	# 		cur = self.conn.cursor()
-	# 		cur.execute(query)
-	# 		self.conn.commit()
+	def deleteFromDB(self, uuid):
+		# query = "delete from " + self.tableName + " where eid = " + self.wrapString(uuid) + ";"
+		# with self.conn:
+		# 	cur = self.conn.cursor()
+		# 	cur.execute(query)
+		# 	self.conn.commit()
+		return
 
 	def clearDb(self):
 		with self.conn:
