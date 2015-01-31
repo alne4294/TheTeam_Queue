@@ -2,7 +2,7 @@
 
 from httplib import HTTPConnection
 import json
-from entry import entry
+from Entry import entry
 
 class HelpRequests:
     def createEntryFromResponse(self, response):
@@ -11,12 +11,15 @@ class HelpRequests:
         if response_obj["error"]:
             return None
         b = response_obj["data"]
+        # print "type of b: " + str(type(b))
+        # print b
         print "#################"
-        print json.loads(b)
-        return entry(jsonStr=json.loads(b))
+        # print jsonStr
+        return entry(jsonStr=(b))
 
     def createListOfEntryFromResponse(self, response):
 #        response = response.replace("\\", "")
+        print " TYPE OF THIS THINNNNNG::::" + str(type(response))
         response_obj =json.loads(response)
         if response_obj["error"]:
             return None
@@ -38,8 +41,10 @@ class HelpRequests:
         return (res.status, res.reason, res.read())
 
     def getCurrentQueue(self):
-        (status, reason, obj) = self.handle_request('GET', '/api/1.0/queue', None)
-        return (status, reason, self.createListOfEntryFromResponse(obj))
+        (status, reason, obj) = self.handle_request('GET', '/api/1.0/queue')
+        # print "Get current queue" + str(status) + str(reason) + str(obj)
+        return str(obj)
+        # return (status, reason, self.createListOfEntryFromResponse(obj))
 
     def getByPosition(self, pos):
         (status, reason, obj) = self.handle_request('GET', '/api/1.0/queue/pos/' + str(pos), None)
@@ -59,6 +64,7 @@ class HelpRequests:
         return (status, reason, self.createEntryFromResponse(obj))
 
     def modify(self, entry):
-        (status, reason, obj) = self.handle_request('PUT', '/api/1.0/modify', entry.format())
+        (status, reason, obj) = self.handle_request('PUT', '/api/1.0/modify', json.dumps(entry.format()))
+        # print "OBBBJJJ" + str(status) + str(reason) +  str(obj)
         return (status, reason, self.createEntryFromResponse(obj))
         

@@ -1,7 +1,7 @@
 #Handles REST requests from server for a queueing system
 
 from datetime import datetime
-from entry import entry
+from Entry import entry
 from EntryList import EntryList
 from flask import Flask, request, jsonify
 from collections import deque
@@ -17,15 +17,15 @@ entryList = EntryList(testing=True)
 
 def format_response(success, obj):
     response = {"error": not success}
-    if isinstance(obj, list):
+    if isinstance(obj, deque):
         data = []
         for elt in obj:
             data.append(elt.format())
         response["data"] = data
-    elif isinstance(obj, str):
-        response["data"] = obj
-    else:
+    elif isinstance(obj, entry):
         response["data"] = obj.format()
+    else:
+        response["data"] = obj
     return jsonify(**response)
 
 
@@ -77,8 +77,10 @@ def getPostQueue():
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
+    entry = entryList.getById(uuid)
+    entryList.remove(uuid)
     entryList.deleteFromDB(uuid)
-    return format_response(True, uuid)
+    return format_response(True, entry)
 
 
 #==========================================================
@@ -91,23 +93,8 @@ def modify():
     if 'eid' not in obj:
         return format_response(False, "Need to include an EID to modify.")
     back = entryList.modify(obj)
-    #if isinstance(back, entry):
-    return format_response(True, back)
-    #else:
-    #    return format_response(False, back)
-
-#/dequeue/id/#
-@app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
-def dequeue(uuid):
-    entryData = request.get_json(force=True)
-    modifiedData = entry(jsonStr=entryData)
-    if entry.eid != UUID(uuid):
-        return format_response(False, "The modified entry does not match the provided id")
-        success = entryList.remove(modifiedData)
-        if success:
-            return format_response(success, modifiedData)
-        else:
-            return format_response(success, "The entry was not dequeued successfully")
+    success = True if isinstance(back, entry) else False
+    return format_response(success, back)
 
 if __name__ == '__main__':
     app.debug = True

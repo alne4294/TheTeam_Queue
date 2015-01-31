@@ -1,6 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
-import json
+import json as j
 
 class entry:
     def __init__(self, name = "", course = "", location = "", helped = False, duration = -1, helpedBy = "Not Helped", eid = None, jsonStr=None):
@@ -24,7 +24,7 @@ class entry:
             self.helpedBy = helpedBy
 
     def format(self):
-        return json.dumps({
+        return {
             "name": self.name, 
             "eid": self.eid,
             "subTime":self.subTime,
@@ -33,4 +33,4 @@ class entry:
             "location": self.location,
             "duration": self.duration,
             "helpedBy": self.helpedBy 
-        })
+        }
