@@ -1,7 +1,7 @@
 #Handles REST requests from server for a queueing system
 
 from datetime import datetime
-from Entry import entry
+from entry import entry
 from EntryList import EntryList
 from flask import Flask, request, jsonify
 from collections import deque
@@ -89,7 +89,7 @@ def removeById(uuid):
 @app.route('/api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
 def modify(uuid):
     entryData = request.get_json(force=True)
-    modifiedData = entry(jsonstr = entryData)
+    modifiedData = entry(jsonStr=entryData)
 
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
@@ -100,7 +100,7 @@ def modify(uuid):
 @app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
 def dequeue(uuid):
     entryData = request.get_json(force=True)
-    modifiedData = entry(jsonstr=entryData)
+    modifiedData = entry(jsonStr=entryData)
     if entry.eid != UUID(uuid):
         return format_response(False, "The modified entry does not match the provided id")
         success = entryList.remove(modifiedData)
