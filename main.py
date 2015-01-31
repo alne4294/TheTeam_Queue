@@ -10,7 +10,7 @@ from uuid import uuid4
 
 
 app = Flask(__name__)
-entryList = EntryList()
+entryList = EntryList(testing=True)
 
 #==========================================================
 #Formats response to JSON
@@ -39,7 +39,7 @@ def getByPos(pos):
         isTrue = True
         if entry == None:
             isTrue = False
-            entry = "No entry at position: " + pos
+            entry = "No entry at position: " + str(pos)
         return format_response(isTrue, entry)
     else:
         return format_response(False, "Need a GET request at this endpoint")
@@ -72,12 +72,12 @@ def getPostQueue():
         return format_response(False, "Need a GET/POST request at this endpoint")
 
 #==========================================================
-#DELETE
+#deleteFromDb
 
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
-    entryList.remove(uuid)
+    #entryList.deleteFromDB(uuid)
     return format_response(True, uuid)
 
 
@@ -91,7 +91,7 @@ def modify():
     if 'eid' not in obj:
         return format_response(False, "Need to include an EID to modify.")
     back = entryList.modify(obj)
-    success = True if isinstance(back, Entry) else False
+    success = True if isinstance(back, entry) else False
     return format_response(success, back)
 
 #/dequeue/id/#
