@@ -79,7 +79,7 @@ def getPostQueue():
 def removeById(uuid):
     entry = entryList.getById(uuid)
     entryList.remove(uuid)
-    # entryList.deleteFromDB(uuid)
+    entryList.deleteFromDB(uuid)
     return format_response(True, entry)
 
 
