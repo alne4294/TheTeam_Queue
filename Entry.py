@@ -3,26 +3,25 @@ from datetime import datetime
 import json as j
 
 class entry:
-    def __init__(self, name, course, location, helped = False, duration = -1, helpedBy = "Not Helped", eid = None):
-        self.name = str(name)
-        self.eid = str(uuid4()) if eid == None else eid
-        self.subTime = str(datetime.now())
-        self.course = str(course)
-        self.helped = helped
-        self.location = str(location)
-        self.duration = duration
-        self.helpedBy = str(helpedBy)
-
-    # def __init__(self, json):
-    #     self.name = json['name']
-    #     self.eid = json['eid']
-    #     self.subTime = json['subTime']
-    #     self.course = json['course']
-    #     self.helped = json['helped']
-    #     self.location = json['location']
-    #     self.duration = json['duration']
-    #     self.helpedBy = json['helpedBy']
-
+    def __init__(self, name = "", course = "", location = "", helped = False, duration = -1, helpedBy = "Not Helped", eid = None, jsonStr=None):
+        if jsonStr == None:
+            self.name = str(name)
+            self.eid = str(uuid4()) if eid == None else eid
+            self.subTime = str(datetime.now())
+            self.course = str(course)
+            self.helped = helped
+            self.location = str(location)
+            self.duration = duration
+            self.helpedBy = str(helpedBy)
+        else:
+            self.name = jsonStr['name']
+            self.eid = jsonStr['eid']
+            self.subTime = str(datetime.now())
+            self.course = jsonStr['course']
+            self.helped = helped
+            self.location = jsonStr['location']
+            self.duration = duration
+            self.helpedBy = helpedBy
 
     def format(self):
         return {
