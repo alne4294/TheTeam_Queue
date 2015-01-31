@@ -32,7 +32,6 @@ def format_response(success, obj):
 #==========================================================
 #GET
 
-
 @app.route('/api/1.0/queue/pos/<int:pos>')
 def getByPos(pos):
     if request.method == 'GET':
@@ -44,12 +43,6 @@ def getByPos(pos):
         return format_response(isTrue, entry)
     else:
         return format_response(False, "Need a GET request at this endpoint")
-
-@app.route('/testing', methods=['POST'])
-def testing():
-    obj = request.get_json(force=True)
-    print obj['duration']
-    return str(obj)
 
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
@@ -100,19 +93,6 @@ def modify():
     back = entryList.modify(obj)
     success = True if isinstance(back, Entry) else False
     return format_response(success, back)
-
-#/dequeue/id/#
-@app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
-def dequeue(uuid):
-    entryData = request.get_json(force=True)
-    modifiedData = entry(jsonstr=entryData)
-    if entry.eid != UUID(uuid):
-        return format_response(False, "The modified entry does not match the provided id")
-        success = entryList.remove(modifiedData)
-        if success:
-            return format_response(success, modifiedData)
-        else:
-            return format_response(success, "The entry was not dequeued successfully")
 
 if __name__ == '__main__':
     app.debug = True
