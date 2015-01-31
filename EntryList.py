@@ -69,6 +69,8 @@ class EntryList:
 				cur.execute(sql)
 				self.conn.commit()
 			self.appendLeft(obj)
+			return obj
+		return "EID not found in queue"
 
 	def remove(self, eid, duration = -1):
 		for item in self.queue:
