@@ -45,6 +45,12 @@ def getByPos(pos):
     else:
         return format_response(False, "Need a GET request at this endpoint")
 
+@app.route('/testing', methods=['POST'])
+def testing():
+    obj = request.get_json(force=True)
+    print obj['duration']
+    return str(obj)
+
 #/queue/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>')
 def getById(uuid):

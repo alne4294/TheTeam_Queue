@@ -1,7 +1,7 @@
 
 
 import os
-import queue
+import main as queue
 import unittest
 import tempfile
 import json
@@ -18,14 +18,14 @@ class FlaskTestCase(unittest.TestCase):
         os.unlink(queue.app.config['DATABASE'])
 
     def test_getByPos(self):
-        entry = self.app.get('/api/1.0/queue/pos/1')
-        print entry.data
+        entry = self.app.get('/api/1.0/queue/pos/0')
         self.assertEqual(entry.status_code, 200)
 
     def test_getQueue(self):
-        entry = self.app.get('/api/1.0/queue')
-        self.assertEqual(entry.status_code, 200)
-
+        testData = dict(name= "Justin", location= "test1", course= "compsci")
+        resp = self.app.post('/api/1.0/queue', data=json.dumps(testData), content_type='application/json')
+        back =  json.loads(resp.get_data())
+        self.assertEqual(resp.status_code, 200)
 
         # assert 'No entries here so far' in entry.data
         # tester = queue.app.test_client(self)
