@@ -7,15 +7,16 @@ from entry import entry
 class HelpRequests:
     def createEntryFromResponse(self, response):
         response_obj =json.loads(response)
-        if response_obj['error']:
+        if response_obj["error"]:
             return None
-        return entry(response_obj['data'])
+        b = response_obj["data"]
+        return b
 
     def createListOfEntryFromResponse(self, response):
         response_obj =json.loads(response)
-        if response_obj['error']:
+        if response_obj["error"]:
             return None
-        return [entry(elt) for elt in response_obj['data']]
+        return [entry(elt) for elt in response_obj["data"]]
 
     def baseURI(self):
         return "127.0.0.1:5000"
