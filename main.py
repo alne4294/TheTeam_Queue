@@ -92,15 +92,14 @@ def removeById(uuid):
 #PUT
 
 #/modify/id/#
-@app.route('/api/1.0/modify/id/<string:uuid>', methods = ['PUT'])
-def modify(uuid):
-    entryData = request.get_json(force=True)
-    modifiedData = entry(jsonstr = entryData)
-
-    if entry.eid != UUID(uuid):
-        return format_response(False, "The modified entry does not match the provided id")
-    entryList.modify(modifiedData)
-    return format_response(True, entryList.getById(modifiedData.eid))
+@app.route('/api/1.0/modify', methods = ['PUT'])
+def modify():
+    obj = request.get_json(force=True)
+    if 'eid' not in obj:
+        return format_response(False, "Need to include an EID to modify.")
+    back = entryList.modify(obj)
+    success = True if isinstance(back, Entry) else False
+    return format_response(success, back)
 
 #/dequeue/id/#
 @app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])
