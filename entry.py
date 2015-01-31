@@ -30,6 +30,9 @@ class entry:
 		return j.JSONEncoder().encode({"name": self.name,"eid": self.eid, "subTime":self.subTime,
 					   "course": self.course, "helped": self.helped, "location": self.location,
 					   "duration": self.duration, "helpedBy": self.helpedBy})
-
+        def __str__(self):
+                return '{"name":"' + str(self.name) + '", "eid":"' + str(self.eid) + '", "subTime":"' + str(self.subTime) + '", "course":"'\
+                        + str(self.course) + '", "helped":"' + str(self.helped) + '", "location":"' + str(self.location) + '", "duration":"'\
+                        + str(self.duration) + '", "helpedBy":"' + str(self.helpedBy) + '"}'
 
 
