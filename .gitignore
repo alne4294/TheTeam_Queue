@@ -4,3 +4,6 @@
 
 # Ignore python build files
 *.pyc
+
+#Ignore database
+*.sqlite3
