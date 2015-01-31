@@ -7,13 +7,15 @@ class EntryList:
 	tableName = "Entries"
 	tableFormat = "(eid TEXT PRIMARY KEY, name TEXT, subtime TEXT, course TEXT, helped INT, location TEXT, duration INT, helpedby TEXT)"
 
-	def __init__(self, obj=None):
+	def __init__(self, obj=None, testing=False):
 		self.conn = sqlite3.connect(self.databaseFilename, check_same_thread=False)
 		self.queue = deque()
 		with self.conn:
 			cur = self.conn.cursor()
 			drop = "drop table if exists " + self.tableName
-			#cur.execute(drop)
+			if testing:
+				cur.execute(drop)
+			self.testing = testing
 			sql = 'create table if not exists ' + self.tableName + self.tableFormat
 			cur.execute(sql)
 			self.conn.commit()
@@ -48,6 +50,7 @@ class EntryList:
 
 	def objToDB(self, obj):
 		# should be in tableFormat with (x,x,'yyz') etc
+		print obj
 		eid = obj.eid
 		name = obj.name
 		subtime = obj.subTime
@@ -62,12 +65,7 @@ class EntryList:
 		return '\'' + s + '\''
 
 	def modify(self, obj):
-		if self.remove(obj.eid) == True:
-			sql = "delete from " + self.tableName + " * where eid = " + self.wrapString(obj.eid) + ";"
-			with self.conn:
-				cur = self.conn.cursor()
-				cur.execute(sql)
-				self.conn.commit()
+		if self.remove(obj['eid']) == True:
 			self.add(obj)
 			return obj
 		return "EID not found in queue"
@@ -80,6 +78,20 @@ class EntryList:
 				self.queue.remove(item)
 				return True
 		return False # Wasn't found
+
+	def deleteFromDB(self, uuid):
+		query = "delete from " + self.tableName + " * where eid = " + wrapString(uuid) + ";"
+		with self.conn:
+			cur = self.conn.cursor()
+			cur.execute(query)
+			self.conn.commit()
+
+	def clearDb(self):
+		with self.conn:
+			cur = self.conn.cursor()
+			drop = "drop table if exists " + self.tableName
+			cur.execute(drop)
+			self.conn.commit()
 
 	def getById(self, x):
 		for item in self.queue:

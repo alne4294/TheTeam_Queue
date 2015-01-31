@@ -10,7 +10,7 @@ from uuid import uuid4
 
 
 app = Flask(__name__)
-entryList = EntryList()
+entryList = EntryList(testing=True)
 
 #==========================================================
 #Formats response to JSON
@@ -39,7 +39,7 @@ def getByPos(pos):
         isTrue = True
         if entry == None:
             isTrue = False
-            entry = "No entry at position: " + pos
+            entry = "No entry at position: " + str(pos)
         return format_response(isTrue, entry)
     else:
         return format_response(False, "Need a GET request at this endpoint")
