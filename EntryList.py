@@ -40,7 +40,11 @@ class EntryList:
 		return entry(name, course, location, helped, duration, helpedBy, eid)
 
 	def add(self, obj):
+		# print("before append: ", self.queue)
 		self.queue.append(obj)
+		# print("after append: ")
+		# for i in self.queue:
+		# 	print i
 		#add to db
 		with self.conn:
 			cur = self.conn.cursor()
@@ -64,13 +68,13 @@ class EntryList:
 		return '\'' + s + '\''
 
 	def modify(self, obj):
-		something = entry(jsonStr=obj)
+		newObj = entry(jsonStr=obj)
 		n = 0
 		for item in self.queue:
-			if item.eid == something.eid:
-				self.queue[n] = something
+			if item.eid == newObj.eid:
+				self.queue[n] = newObj
+				return newObj
 			n+=1
-			return something
 		return "EID not found in queue"
 
 	def remove(self, eid, duration = -1):
@@ -82,12 +86,13 @@ class EntryList:
 				return True
 		return False # Wasn't found
 
-	# def deleteFromDB(self, uuid):
-	# 	query = "delete from " + self.tableName + " * where eid = " + self.wrapString(uuid) + ";"
-	# 	with self.conn:
-	# 		cur = self.conn.cursor()
-	# 		cur.execute(query)
-	# 		self.conn.commit()
+	def deleteFromDB(self, uuid):
+		self.remove(uuid)
+		query = "delete from " + self.tableName + " where eid = " + self.wrapString(uuid) + ";"
+		with self.conn:
+			cur = self.conn.cursor()
+			cur.execute(query)
+			self.conn.commit()
 
 	def clearDb(self):
 		with self.conn:

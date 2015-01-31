@@ -17,15 +17,15 @@ entryList = EntryList(testing=True)
 
 def format_response(success, obj):
     response = {"error": not success}
-    if isinstance(obj, deque):
+    if isinstance(obj, list):
         data = []
         for elt in obj:
             data.append(elt.format())
         response["data"] = data
-    elif isinstance(obj, entry):
-        response["data"] = obj.format()
-    else:
+    elif isinstance(obj, str):
         response["data"] = obj
+    else:
+        response["data"] = obj.format()
     return jsonify(**response)
 
 
@@ -77,7 +77,7 @@ def getPostQueue():
 #/remove/id/#
 @app.route('/api/1.0/queue/id/<string:uuid>', methods = ['DELETE'])
 def removeById(uuid):
-    #entryList.deleteFromDB(uuid)
+    entryList.deleteFromDB(uuid)
     return format_response(True, uuid)
 
 
@@ -91,8 +91,10 @@ def modify():
     if 'eid' not in obj:
         return format_response(False, "Need to include an EID to modify.")
     back = entryList.modify(obj)
-    success = True if isinstance(back, entry) else False
-    return format_response(success, back)
+    #if isinstance(back, entry):
+    return format_response(True, back)
+    #else:
+    #    return format_response(False, back)
 
 #/dequeue/id/#
 @app.route('/api/1.0/dequeue/id/<string:uuid>', methods = ['PUT'])

@@ -20,7 +20,13 @@ class HelpRequests:
         response_obj =json.loads(response)
         if response_obj["error"]:
             return None
-        return [entry(jsonStr=json.loads(elt)) for elt in response_obj["data"]]
+        print type(dict) == type(response_obj["data"][0])
+        print type(response_obj["data"][0])
+        if isinstance(dict, type(response_obj["data"][0])):
+            return [entry(jsonStr=elt) for elt in response_obj["data"]]
+        else:
+            return [entry(jsonStr=json.loads(elt)) for elt in response_obj["data"]]
+
 
     def baseURI(self):
         return "127.0.0.1:5000"
