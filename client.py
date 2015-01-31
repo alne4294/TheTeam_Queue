@@ -12,7 +12,6 @@ class HelpRequests:
         return entry(response_obj['data'])
 
     def createListOfEntryFromResponse(self, response):
-        print response
         response_obj =json.loads(response)
         if response_obj['error']:
             return None
